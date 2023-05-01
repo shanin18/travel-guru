@@ -1,41 +1,54 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import facebook from "../../assets/images/icons/fb.png"
-import google from "../../assets/images/icons/google.png"
+import LoginWithSocial from "../../components/LoginWithSocial";
 import { AuthContext } from "../../Context/AuthProvider";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
-    const {signUpWithGoogle, signUpWithFacebook} = useContext(AuthContext)
+  const [checked, setChecked] = useState(false);
+  const { userLogin, resetPassword } = useContext(AuthContext);
+  const emailRef = useRef();
 
-    const handleSignInWithFacebook = () =>{
-        signUpWithFacebook()
-        .then(()=>{
-            toast.success("SignIn successfully!!")
-        })
-        .catch(err => toast.error(err.message))
-    }
+  const handleFormLogin = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
 
-    const handleSignInWithGoogle = () =>{
-        signUpWithGoogle()
-        .then(()=>{
-            toast.success("SignIn successfully!!")
-        })
-        .catch(err => toast.error(err.message))
+    userLogin(email, password)
+      .then(() => {
+        toast("login successful!!");
+        form.reset();
+      })
+      .catch((err) => toast.error(err.message));
+  };
+
+  const handleResetPassword = () => {
+    const email = emailRef.current.value;
+
+    if (email) {
+      resetPassword(email)
+        .then(() => toast.warning("please check your email to reset password!"))
+        .catch((err) => toast.error(err.message));
+    } else {
+      toast.error("enter your email first");
     }
+  };
 
   return (
     <div className="w-[570px] px-14 py-9 border border-gray-300 rounded-lg shadow-xl">
       <h1 className="font-bold font-montserrat text-2xl mb-14 text-[#000000]">
         Login
       </h1>
-      <form>
+      <form onSubmit={handleFormLogin}>
         <input
           className="w-full font-semibold text-[#000000] placeholder:text-[#000000] font-montserrat border-0 border-b-[1px] px-0 border-[#C5C5C5] focus:ring-0 focus:border-[#C5C5C5] mb-10"
           name="email"
           type="email"
           placeholder="Email"
+          autoComplete="username"
+          ref={emailRef}
           required
         />
         <input
@@ -43,12 +56,14 @@ const Login = () => {
           name="password"
           type="password"
           placeholder="Password"
+          autoComplete="current-password"
           required
         />
         <div className="flex justify-between items-center mb-12">
           <div className="flex items-start">
             <div className="flex items-center h-5">
               <input
+                onClick={() => setChecked(!checked)}
                 id="remember"
                 type="checkbox"
                 className="w-4 h-4 rounded-[3px] border-[2px] border-black cursor-pointer focus:ring-0 focus:ring-offset-0  "
@@ -58,37 +73,44 @@ const Login = () => {
               htmlFor="remember"
               className="pl-2 text-sm font-semibold text-gray-900 font-montserrat cursor-pointer"
             >
-              Remember me
+              Remember Me
             </label>
           </div>
           <div>
-            <Link className="text-[#F9A51A] text-sm font-semibold font-montserrat underline">
+            <p
+              onClick={handleResetPassword}
+              className="text-[#F9A51A] text-sm font-semibold font-montserrat underline"
+            >
               Forgot Password
-            </Link>
+            </p>
           </div>
         </div>
         <div>
-          <button className="btn w-full font-montserrat bg-[#F9A51A] hover:bg-[#F9A51A] text-black border-none capitalize">
+          <button
+            disabled={!checked && true}
+            className="btn w-full font-montserrat bg-[#F9A51A] hover:bg-[#F9A51A] text-black border-none capitalize"
+          >
             Login
           </button>
         </div>
       </form>
 
       <div className="flex justify-center">
-        <Link to="/register" className="font-montserrat font-semibold text-sm my-4">Don't have an account? <span className="text-[#F9A51A] underline ml-2">Create an account</span></Link>
+        <Link
+          to="/register"
+          className="font-montserrat font-semibold text-sm my-4"
+        >
+          Don't have an account?{" "}
+          <span className="text-[#F9A51A] underline ml-2">
+            Create an account
+          </span>
+        </Link>
       </div>
 
       <div className="divider">OR</div>
 
-      <div className="mt-5">
-        <div onClick={handleSignInWithFacebook} className="border rounded-full flex items-center p-2 mb-2 cursor-pointer">
-            <img className="w-[37px]" src={facebook} alt="facebook image" />
-            <p className="font-montserrat font-semibold w-full text-center">Continue With Facebook</p>
-        </div>
-        <div onClick={handleSignInWithGoogle} className="border rounded-full flex items-center p-2 cursor-pointer">
-            <img className="w-[37px]" src={google} alt="facebook image" />
-            <p className="font-montserrat font-semibold w-full text-center">Continue With Google</p>
-        </div>
+      <div>
+        <LoginWithSocial></LoginWithSocial>
       </div>
     </div>
   );

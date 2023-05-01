@@ -5,6 +5,8 @@ import Home from '../Pages/Home/Home';
 import LoginLayout from '../Layouts/LoginLayout';
 import Login from '../Pages/Login/Login';
 import Register from '../Pages/Login/Register';
+import HotelsLayout from '../Layouts/HotelsLayout';
+import Hotels from '../Pages/Hotels/Hotels';
 
 const router = createBrowserRouter([
     {
@@ -28,6 +30,17 @@ const router = createBrowserRouter([
             {
                 path:"/register",
                 element:<Register></Register>
+            }
+        ]
+    },
+    {
+        path:"/",
+        element:<HotelsLayout></HotelsLayout>,
+        children:[
+            {
+                path:"/hotels",
+                element:<Hotels></Hotels>,
+                loader: ()=> fetch("http://localhost:5000/hotels")
             }
         ]
     }

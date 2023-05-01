@@ -2,7 +2,7 @@ import React from "react";
 import Button from "../../components/button";
 import { FaArrowRight } from "react-icons/fa";
 
-const About = () => {
+const Heading = () => {
   return (
     <div>
       <h1 className="font-bebas text-8xl text-white">Cox's Bazar</h1>
@@ -21,4 +21,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default Heading;
