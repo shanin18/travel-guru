@@ -5,12 +5,12 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDkZkz2Qm1g1zgywEhAjsfjmTExeDszOmw",
-  authDomain: "react-travel-guru-bf876.firebaseapp.com",
-  projectId: "react-travel-guru-bf876",
-  storageBucket: "react-travel-guru-bf876.appspot.com",
-  messagingSenderId: "446099088339",
-  appId: "1:446099088339:web:df97b23daaa9380e2f0526"
+  apiKey: import.meta.env.VITE_apiKey,
+  authDomain: import.meta.env.VITE_authDomain,
+  projectId: import.meta.env.VITE_projectId,
+  storageBucket: import.meta.env.VITE_storageBucket,
+  messagingSenderId: import.meta.env.VITE_messagingSenderId,
+  appId: import.meta.env.VITE_appId
 };
 
 // Initialize Firebase
