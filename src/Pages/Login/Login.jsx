@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import LoginWithSocial from "../../components/LoginWithSocial";
 import { AuthContext } from "../../Context/AuthProvider";
 import { toast } from "react-toastify";
@@ -10,6 +10,10 @@ const Login = () => {
   const { userLogin, resetPassword } = useContext(AuthContext);
   const emailRef = useRef();
 
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location?.state?.from?.pathname || "/"
+
   const handleFormLogin = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -19,6 +23,7 @@ const Login = () => {
     userLogin(email, password)
       .then(() => {
         toast("login successful!!");
+        navigate(from)
         form.reset();
       })
       .catch((err) => toast.error(err.message));

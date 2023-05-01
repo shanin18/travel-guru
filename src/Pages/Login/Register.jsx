@@ -18,6 +18,7 @@ const Register = () => {
         const email = form.email.value
         const password = form.password.value
         const confirmPassword = form.confirm_password.value;
+        const fullName = firstName + lastName;
 
         setErrorPassword("");
         setErrorConfirmPassword("");

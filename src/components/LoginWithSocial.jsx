@@ -4,13 +4,18 @@ import google from "../assets/images/icons/google.png"
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthContext } from "../Context/AuthProvider";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const LoginWithSocial = () => {
   const { signUpWithGoogle, signUpWithFacebook } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location?.state?.from?.pathname || "/"
 
   const handleSignInWithFacebook = () => {
     signUpWithFacebook()
       .then(() => {
+        navigate(from)
         toast.success("SignIn successfully!!");
       })
       .catch((err) => toast.error(err.message));
@@ -19,6 +24,7 @@ const LoginWithSocial = () => {
   const handleSignInWithGoogle = () => {
     signUpWithGoogle()
       .then(() => {
+        navigate(from)
         toast.success("SignIn successfully!!");
       })
       .catch((err) => toast.error(err.message));
