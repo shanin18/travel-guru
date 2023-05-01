@@ -42,7 +42,7 @@ const router = createBrowserRouter([
             {
                 path:"/hotels",
                 element:<Private><Hotels></Hotels></Private>,
-                loader: ()=> fetch("http://localhost:5000/hotels")
+                loader: ()=> fetch("https://travel-guru-server-shanin18.vercel.app/hotels")
             }
         ]
     },
